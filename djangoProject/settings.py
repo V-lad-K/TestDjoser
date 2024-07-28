@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -137,14 +137,26 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    'SEND_ACTIVATION_EMAIL': False,
+    'SEND_ACTIVATION_EMAIL': True,
     'ACTIVATION_URL': 'activate/{uid}/{token}/',
     "USER_CREATE_PASSWORD_RETYPE": True,
     "PASSWORD_RESET_CONFIRM_URL": "password-reset/{uid}/{token}",
     "PASSWORD_RESET_CONFIRM_RETYPE": True,
     "PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND": True,
 
+    'EMAIL': {
+            'activation': "accounts.email.CustomActivationEmail",
+        },
     'SERIALIZERS': {
         'user_create': "accounts.serializers.CustomUserCreateSerializer",
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'krugonovskiy@gmail.com'
+EMAIL_HOST_PASSWORD = 'ddldkoihdnhihnqh'
+DOMAIN = 'localhost:3000'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
