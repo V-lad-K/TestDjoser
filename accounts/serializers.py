@@ -1,16 +1,24 @@
 import re
 
-from djoser.serializers import UserCreateSerializer
+from djoser.serializers import UserSerializer, UserDeleteSerializer
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
-class CustomUserCreateSerializer(UserCreateSerializer):
-    class Meta(UserCreateSerializer.Meta):
+class CustomUserSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
         model = User
-        fields = ["id", 'username', 'email', 'password']
+        fields = ["id", "username", "email"]
+
+
+class CustomUserCreateSerializer(UserSerializer):
+    delete_request = UserDeleteSerializer(read_only=True)
+
+    class Meta(UserSerializer.Meta):
+        model = User
+        fields = ["id", 'username', 'email', 'password', 'delete_request', ]
 
     def validate_username(self, value):
         regex_username_pattern = "^[A-Za-z0-9_]*$"

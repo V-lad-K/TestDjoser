@@ -16,9 +16,9 @@ class UserRegistrationTest(APITestCase):
 
         response = self.client.post(url, data=data, format='json')
 
+        self.assertEqual(str(response.data['username'][0]), 'Username must be in range 5 - 150')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('username', response.data)
-        self.assertEqual(str(response.data['username'][0]), 'Username must be in range 5 - 150')
 
     def test_user_registration_invalid_username_with_space(self):
         url = reverse('user-list')
