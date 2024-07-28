@@ -1,6 +1,6 @@
 import re
 
-from djoser.serializers import UserSerializer, UserDeleteSerializer
+from djoser.serializers import UserSerializer, UserDeleteSerializer, UserCreateSerializer
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
@@ -13,10 +13,10 @@ class CustomUserSerializer(UserSerializer):
         fields = ["id", "username", "email"]
 
 
-class CustomUserCreateSerializer(UserSerializer):
+class CustomUserCreateSerializer(UserCreateSerializer):
     delete_request = UserDeleteSerializer(read_only=True)
 
-    class Meta(UserSerializer.Meta):
+    class Meta(UserCreateSerializer.Meta):
         model = User
         fields = ["id", 'username', 'email', 'password', 'delete_request', ]
 
